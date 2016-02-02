@@ -18,7 +18,7 @@ package cn.dreamtobe.percentsmoothhandler;
 /**
  * Created by Jacksgong on 2/2/16.
  * <p/>
- * will handle the case of  the internal of the percent between the current and the last is
+ * handle the case of the internal of the percent between the current and the last is
  * too large to smooth for the target
  *
  * @see SmoothHandler

@@ -4,6 +4,16 @@ Handle the case of  the internal of the percent between the current and the last
 
 [ ![Download][bintray_svg] ][bintray_link]
 
+## Installation
+
+PercentSmoothHandler is installed by adding the following dependency to your `build.gradle` file:
+
+```
+dependencies {
+    compile 'cn.dreamtobe.percentsmoothhandler:library:0.0.6'
+}
+```
+
 ## LICENSE
 
 ```

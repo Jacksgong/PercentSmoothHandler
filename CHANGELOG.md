@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 0.0.8
+
+_2016-02-05_
+
+- Fix: add `commitPercent(percent:float):void` to handle the percent is changed by somewhere SmoothHandler does not know.
+
 ## Version 0.0.7
 
 _2016-02-04_

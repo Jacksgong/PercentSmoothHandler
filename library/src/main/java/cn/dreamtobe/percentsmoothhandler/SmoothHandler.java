@@ -35,8 +35,9 @@ public class SmoothHandler extends Handler {
     WeakReference<ISmoothTarget> targetWeakReference;
 
     private float aimPercent;
-    private float minInternalPercent = 0.1f;
-    private float smoothInternalPercent = 0.01f;
+    private float minInternalPercent = 0.03f; // 3%
+    private float smoothInternalPercent = 0.01f; // 1%
+    private int smoothIncreaseDelayMillis = 1; // 1ms
 
     public float getMinInternalPercent() {
         return minInternalPercent;
@@ -45,7 +46,7 @@ public class SmoothHandler extends Handler {
     /**
      * if the provider percent more than minInternalPercent, it will be split to the several smoothInternalPercent
      *
-     * @param minInternalPercent the min internal of the percent, default 0.1
+     * @param minInternalPercent the min internal of the percent, default 0.03
      * @see #setSmoothInternalPercent(float)
      */
     public void setMinInternalPercent(float minInternalPercent) {
@@ -72,6 +73,18 @@ public class SmoothHandler extends Handler {
         Assert.assertTrue("the smooth internal percent must less than the min internal percent",
                 smoothInternalPercent < this.minInternalPercent);
         this.smoothInternalPercent = smoothInternalPercent;
+    }
+
+    public int getSmoothIncreaseDelayMillis() {
+        return smoothIncreaseDelayMillis;
+    }
+
+    /**
+     * @param smoothIncreaseDelayMillis the delay of increase duration, default 1ms
+     */
+    public void setSmoothIncreaseDelayMillis(int smoothIncreaseDelayMillis) {
+        Assert.assertTrue("the delay of increase duration must more than 0", minInternalPercent > 0);
+        this.smoothIncreaseDelayMillis = smoothIncreaseDelayMillis;
     }
 
     /**
@@ -105,7 +118,7 @@ public class SmoothHandler extends Handler {
         }
 
         target.setPercent(target.getPercent() + smoothInternalPercent);
-        sendEmptyMessage(0);
+        sendEmptyMessageDelayed(0, smoothIncreaseDelayMillis);
     }
 
     private void clear() {

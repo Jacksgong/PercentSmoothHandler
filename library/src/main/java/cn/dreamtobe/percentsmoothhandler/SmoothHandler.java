@@ -117,12 +117,39 @@ public class SmoothHandler extends Handler {
             return;
         }
 
-        target.setPercent(target.getPercent() + smoothInternalPercent);
+        setPercent2Target(target.getPercent() + smoothInternalPercent);
         sendEmptyMessageDelayed(0, smoothIncreaseDelayMillis);
     }
 
     private void clear() {
+        this.ignoreCommit = false;
         removeMessages(0);
+    }
+
+    private boolean ignoreCommit = false;
+
+    /**
+     * Must be invoked by some method which will change the percent for monitor all changes
+     * about percent.
+     *
+     * @param percent the percent will be effect by the target.
+     */
+    public void commitPercent(float percent) {
+        if (this.ignoreCommit) {
+            this.ignoreCommit = false;
+            return;
+        }
+        this.aimPercent = percent;
+    }
+
+    private void setPercent2Target(final float percent) {
+        if (targetWeakReference == null || targetWeakReference.get() == null) {
+            return;
+        }
+
+        this.ignoreCommit = true;
+        targetWeakReference.get().setPercent(percent);
+        this.ignoreCommit = false;
     }
 
     /**
@@ -137,7 +164,7 @@ public class SmoothHandler extends Handler {
 
         final ISmoothTarget target = targetWeakReference.get();
 
-        target.setPercent(this.aimPercent);
+        setPercent2Target(this.aimPercent);
         clear();
 
         this.aimPercent = percent;
@@ -145,7 +172,7 @@ public class SmoothHandler extends Handler {
         if (this.aimPercent - target.getPercent() > minInternalPercent) {
             sendEmptyMessage(0);
         } else {
-            target.setPercent(percent);
+            setPercent2Target(percent);
         }
 
     }

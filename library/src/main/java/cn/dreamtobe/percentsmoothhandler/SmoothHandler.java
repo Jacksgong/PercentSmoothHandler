@@ -93,13 +93,13 @@ public class SmoothHandler extends Handler {
      * @param targetWeakReference the weak reference of the smooth target
      */
     public SmoothHandler(WeakReference<ISmoothTarget> targetWeakReference) {
-        super(Looper.getMainLooper());
-        this.targetWeakReference = targetWeakReference;
+        this(targetWeakReference, Looper.getMainLooper());
     }
 
     public SmoothHandler(WeakReference<ISmoothTarget> targetWeakReference, Looper looper) {
         super(looper);
         this.targetWeakReference = targetWeakReference;
+        this.aimPercent = targetWeakReference.get().getPercent();
     }
 
     @Override

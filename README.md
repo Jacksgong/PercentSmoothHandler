@@ -18,9 +18,20 @@ dependencies {
 }
 ```
 
-## How to use?
+## How to integrate?
 
-As easy as this commit: : [test: add SmoothHandler integration to ProgressBar](https://github.com/Jacksgong/PercentSmoothHandler/commit/d253a86b4cb8dd56332bf4d00cc350fa01fe08f0)
+> As easy as following commit
+
+#### Step 1:
+
+[test: add SmoothHandler integration to ProgressBar](https://github.com/Jacksgong/PercentSmoothHandler/commit/d253a86b4cb8dd56332bf4d00cc350fa01fe08f0)
+
+#### Step 2:
+
+> Invoke the `SmoothHandler#commitPercent` in the method where you will change your percent.
+
+[test: adapter the 'commitPercent' in SmoothProgressBar](https://github.com/Jacksgong/PercentSmoothHandler/commit/7092746888610b819658e27c5c616ee85aebb9f5)
+
 
 ## LICENSE
 

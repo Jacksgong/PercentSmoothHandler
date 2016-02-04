@@ -4,6 +4,10 @@ Handle the case of  the internal of the percent between the current and the last
 
 [ ![Download][bintray_svg] ][bintray_link]
 
+## Demo
+
+![][demo_gif]
+
 ## Installation
 
 PercentSmoothHandler is installed by adding the following dependency to your `build.gradle` file:
@@ -13,6 +17,10 @@ dependencies {
     compile 'cn.dreamtobe.percentsmoothhandler:library:0.0.7'
 }
 ```
+
+## How to use?
+
+As easy as this commit: : [test: add SmoothHandler integration to ProgressBar](https://github.com/Jacksgong/PercentSmoothHandler/commit/d253a86b4cb8dd56332bf4d00cc350fa01fe08f0)
 
 ## LICENSE
 
@@ -34,3 +42,4 @@ limitations under the License.
 
 [bintray_svg]: https://api.bintray.com/packages/jacksgong/maven/PercentSmoothHandler/images/download.svg
 [bintray_link]: https://bintray.com/jacksgong/maven/PercentSmoothHandler/_latestVersion
+[demo_gif]: https://github.com/Jacksgong/PercentSmoothHandler/raw/master/art/demo.gif

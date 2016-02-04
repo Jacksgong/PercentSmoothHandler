@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PercentSmoothHandler</string>
+    <string name="app_github">GITHUB</string>
+    <string name="app_github_url">https://github.com/Jacksgong/PercentSmoothHandler</string>
 </resources>

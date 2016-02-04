@@ -13,6 +13,8 @@ import cn.dreamtobe.percentsmoothhandler.SmoothHandler;
 
 /**
  * Created by Jacksgong on 2/4/16.
+ *
+ * The progress bar which has added SmoothHandler integration
  */
 public class SmoothProgressBar extends ProgressBar implements ISmoothTarget {
 

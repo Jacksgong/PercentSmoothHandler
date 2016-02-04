@@ -13,7 +13,7 @@ import cn.dreamtobe.percentsmoothhandler.SmoothHandler;
 
 /**
  * Created by Jacksgong on 2/4/16.
- *
+ * <p/>
  * The progress bar which has added SmoothHandler integration
  */
 public class SmoothProgressBar extends ProgressBar implements ISmoothTarget {
@@ -43,6 +43,14 @@ public class SmoothProgressBar extends ProgressBar implements ISmoothTarget {
     @Override
     public void setPercent(float percent) {
         setProgress((int) Math.ceil(percent * getMax()));
+    }
+
+    @Override
+    public synchronized void setProgress(int progress) {
+        if (smoothHandler != null) {
+            smoothHandler.commitPercent(progress / (float) getMax());
+        }
+        super.setProgress(progress);
     }
 
     private SmoothHandler smoothHandler;

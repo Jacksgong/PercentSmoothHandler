@@ -32,7 +32,7 @@ import java.lang.ref.WeakReference;
  * @see ISmoothTarget
  */
 public class SmoothHandler extends Handler {
-    WeakReference<ISmoothTarget> targetWeakReference;
+    final WeakReference<ISmoothTarget> targetWeakReference;
 
     private float aimPercent;
     private float minInternalPercent = 0.03f; // 3%

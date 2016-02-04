@@ -111,13 +111,14 @@ public class SmoothHandler extends Handler {
 
         final ISmoothTarget target = targetWeakReference.get();
 
+        setPercent2Target(Math.min(target.getPercent() + smoothInternalPercent, aimPercent));
+
         if (target.getPercent() >= this.aimPercent || target.getPercent() >= 1 ||
                 (target.getPercent() == 0 && this.aimPercent == 0)) {
             clear();
             return;
         }
 
-        setPercent2Target(target.getPercent() + smoothInternalPercent);
         sendEmptyMessageDelayed(0, smoothIncreaseDelayMillis);
     }
 

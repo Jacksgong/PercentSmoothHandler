@@ -14,7 +14,7 @@ PercentSmoothHandler is installed by adding the following dependency to your `bu
 
 ```
 dependencies {
-    compile 'cn.dreamtobe.percentsmoothhandler:library:0.0.8'
+    compile 'cn.dreamtobe.percentsmoothhandler:library:0.1.0'
 }
 ```
 

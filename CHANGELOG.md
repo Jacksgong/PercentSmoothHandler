@@ -1,10 +1,12 @@
 # Change Log
 
-## Version 0.0.8
+## Version 0.1.0
 
 _2016-02-05_
 
 - Fix: add `commitPercent(percent:float):void` to handle the percent is changed by somewhere SmoothHandler does not know.
+- Fix: the bug of the first time's aim percent is wrong.
+- Fix: fix the smooth-increase percent beyond the aim-percent sometimes
 
 ## Version 0.0.7
 

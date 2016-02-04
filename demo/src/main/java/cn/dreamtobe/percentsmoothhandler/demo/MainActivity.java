@@ -22,13 +22,21 @@ public class MainActivity extends AppCompatActivity {
         smoothPb.setSmoothPercent(0.5f);
     }
 
+    public void onClickNormalIncrease(final View view) {
+        smoothPb.setPercent(getIncreasePercent());
+    }
+
     public void onClickSmoothIncrease(final View view) {
-        float targetPercent = smoothPb.getPercent() + 0.05f;
-        smoothPb.setSmoothPercent(Math.min(1, targetPercent));
+        smoothPb.setSmoothPercent(getIncreasePercent());
     }
 
     public void onClickRest(final View view) {
-        smoothPb.setSmoothPercent(0);
+        smoothPb.setPercent(0);
+    }
+
+    private float getIncreasePercent() {
+        float targetPercent = smoothPb.getPercent() + 0.1f;
+        return Math.min(1, targetPercent);
     }
 
     @Override

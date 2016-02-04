@@ -11,22 +11,24 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp" />
 
+    <android.support.v7.widget.AppCompatButton
+        style="@style/DemoButton"
+        android:layout_above="@+id/increase_smoothly_btn"
+        android:onClick="onClickNormalIncrease"
+        android:text="increase progress normally" />
 
     <android.support.v7.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/increase_smoothly_btn"
+        style="@style/DemoButton"
         android:layout_above="@+id/reset_btn"
         android:onClick="onClickSmoothIncrease"
-        android:padding="5dp"
         android:text="@string/increase_progress_smoothly" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/reset_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/DemoButton"
         android:layout_alignParentBottom="true"
         android:onClick="onClickRest"
-        android:padding="5dp"
         android:text="@string/reset" />
 
 </RelativeLayout>

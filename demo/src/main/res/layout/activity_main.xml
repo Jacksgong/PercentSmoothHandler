@@ -18,7 +18,7 @@
         android:layout_above="@+id/reset_btn"
         android:onClick="onClickSmoothIncrease"
         android:padding="5dp"
-        android:text="increase progress smoothly" />
+        android:text="@string/increase_progress_smoothly" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/reset_btn"
@@ -27,6 +27,6 @@
         android:layout_alignParentBottom="true"
         android:onClick="onClickRest"
         android:padding="5dp"
-        android:text="reset" />
+        android:text="@string/reset" />
 
 </RelativeLayout>

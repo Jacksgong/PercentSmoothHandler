@@ -2,6 +2,9 @@
     <string name="app_name">PercentSmoothHandler</string>
     <string name="app_github">GITHUB</string>
     <string name="app_github_url">https://github.com/Jacksgong/PercentSmoothHandler</string>
-    <string name="increase_progress_smoothly">increase progress smoothly</string>
+    <string name="increase_smoothly">increase smoothly</string>
+    <string name="increase_duration_smoothly">increase duration smoothly</string>
+    <string name="increase_duration_definite_smoothly">increase duration(%dms) smoothly</string>
     <string name="reset">reset</string>
+    <string name="increase_normally">increase normally</string>
 </resources>

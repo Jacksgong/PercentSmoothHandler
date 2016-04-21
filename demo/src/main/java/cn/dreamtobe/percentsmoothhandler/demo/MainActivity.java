@@ -42,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+
+        increaseDurationSmoothBtn.setText(
+                        getString(R.string.increase_duration_definite_smoothly, getDuration()));
     }
 
     public void onClickNormalIncrease(final View view) {

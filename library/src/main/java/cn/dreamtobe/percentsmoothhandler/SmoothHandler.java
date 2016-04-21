@@ -18,6 +18,8 @@ package cn.dreamtobe.percentsmoothhandler;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.SystemClock;
+import android.util.Log;
 
 import junit.framework.Assert;
 
@@ -38,6 +40,9 @@ public class SmoothHandler extends Handler {
     private float minInternalPercent = 0.03f; // 3%
     private float smoothInternalPercent = 0.01f; // 1%
     private int smoothIncreaseDelayMillis = 1; // 1ms
+
+    private final String TAG = "SmoothHandler";
+    public static boolean NEED_LOG = false;
 
     public float getMinInternalPercent() {
         return minInternalPercent;
@@ -100,6 +105,7 @@ public class SmoothHandler extends Handler {
         super(looper);
         this.targetWeakReference = targetWeakReference;
         this.aimPercent = targetWeakReference.get().getPercent();
+        clear();
     }
 
     @Override
@@ -111,18 +117,27 @@ public class SmoothHandler extends Handler {
 
         final ISmoothTarget target = targetWeakReference.get();
 
-        setPercent2Target(Math.min(target.getPercent() + smoothInternalPercent, aimPercent));
+        final float currentPercent = target.getPercent();
+        final float desiredPercentDelta = calculatePercent(currentPercent);
+        setPercent2Target(Math.min(currentPercent + desiredPercentDelta, aimPercent));
+        final float realPercentDelta = target.getPercent() - currentPercent;
+
 
         if (target.getPercent() >= this.aimPercent || target.getPercent() >= 1 ||
                 (target.getPercent() == 0 && this.aimPercent == 0)) {
+            if (NEED_LOG) {
+                Log.d(TAG, String.format("finish aimPercent(%f) durationMillis(%d)",
+                        this.aimPercent, this.tempDurationMillis));
+            }
             clear();
             return;
         }
 
-        sendEmptyMessageDelayed(0, smoothIncreaseDelayMillis);
+        sendEmptyMessageDelayed(0, calculateDelay(realPercentDelta, desiredPercentDelta));
     }
 
     private void clear() {
+        resetTempDelay();
         this.ignoreCommit = false;
         removeMessages(0);
     }
@@ -153,14 +168,27 @@ public class SmoothHandler extends Handler {
         this.ignoreCommit = false;
     }
 
-    /**
-     * if the provider percent(the aim percent) more than minInternalPercent, it will be split to the several smoothInternalPercent
-     *
-     * @param percent the aim percent
-     */
     public void loopSmooth(float percent) {
+        loopSmooth(percent, -1);
+    }
+
+    /**
+     * If the provider percent(the aim percent) more than {@link #minInternalPercent}, it will
+     * be split to the several {@link #smoothInternalPercent}.
+     *
+     * @param percent        The aim percent.
+     * @param durationMillis Temporary duration for {@code percent}. If lesson than 0, it will be
+     *                       ignored.
+     */
+    public void loopSmooth(float percent, long durationMillis) {
         if (this.targetWeakReference == null || this.targetWeakReference.get() == null) {
             return;
+        }
+
+        if (NEED_LOG) {
+            Log.d(TAG,
+                    String.format("start loopSmooth aimPercent(%f) durationMillis(%d)",
+                            aimPercent, durationMillis));
         }
 
         final ISmoothTarget target = targetWeakReference.get();
@@ -171,10 +199,77 @@ public class SmoothHandler extends Handler {
         this.aimPercent = percent;
 
         if (this.aimPercent - target.getPercent() > minInternalPercent) {
+            if (durationMillis >= 0) {
+
+
+                tempStartTimestamp = SystemClock.uptimeMillis();
+                tempDurationMillis = durationMillis;
+                tempRemainDurationMillis = durationMillis;
+            }
             sendEmptyMessage(0);
         } else {
             setPercent2Target(percent);
         }
-
     }
+
+    private void resetTempDelay() {
+        tempLastConsumeMillis = smoothIncreaseDelayMillis;
+        tempStartTimestamp = -1;
+        tempDurationMillis = -1;
+        tempRemainDurationMillis = -1;
+        tempWarnedAccuracyProblem = false;
+    }
+
+    private float calculatePercent(final float currentPercent) {
+        if (tempDurationMillis < 0) {
+            return smoothInternalPercent;
+        }
+
+        float internalPercent;
+
+        final long usedDuration = SystemClock.uptimeMillis() - tempStartTimestamp;
+        final long lastRemainDurationMillis = tempRemainDurationMillis;
+
+        tempRemainDurationMillis = tempDurationMillis - usedDuration;
+        tempLastConsumeMillis = Math.max(lastRemainDurationMillis - tempRemainDurationMillis, 1);
+
+        final long splitByDelay = Math.max(tempRemainDurationMillis / tempLastConsumeMillis, 1);
+        final float percentDelta = this.aimPercent - currentPercent;
+
+        internalPercent = percentDelta / splitByDelay;
+
+        return internalPercent;
+    }
+
+    private long calculateDelay(final float realPercentDelta, final float desiredPercentDelta) {
+        if (tempDurationMillis < 0) {
+            return smoothIncreaseDelayMillis;
+        }
+
+        if (realPercentDelta - desiredPercentDelta <= ALLOWED_PRECISION_ERROR) {
+            return smoothIncreaseDelayMillis;
+        }
+
+        //Accuracy Problem in target smooth progress.
+        if (!tempWarnedAccuracyProblem) {
+            tempWarnedAccuracyProblem = true;
+            Log.w(TAG,
+                    String.format("Occur Accuracy Problem in %s, (real percent delta is %f, but" +
+                                    " desired percent delta is %f), so we use delay to handle the" +
+                                    " temporary duration, as result the processing will not smooth",
+                            targetWeakReference.get(), realPercentDelta, desiredPercentDelta));
+        }
+
+        long remedyDelayMillis;
+        final float delta = realPercentDelta - desiredPercentDelta;
+        remedyDelayMillis = (long) ((delta / desiredPercentDelta) * tempLastConsumeMillis);
+        return remedyDelayMillis + smoothIncreaseDelayMillis;
+    }
+
+    private long tempStartTimestamp;
+    private long tempDurationMillis;
+    private long tempRemainDurationMillis;
+    private long tempLastConsumeMillis;
+    private boolean tempWarnedAccuracyProblem;
+    public static float ALLOWED_PRECISION_ERROR = 0.00001f;
 }

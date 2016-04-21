@@ -35,4 +35,14 @@ public interface ISmoothTarget {
      * @param percent the aim percent
      */
     void setSmoothPercent(float percent);
+
+    /**
+     * If the provider percent(the aim percent) more than {@link SmoothHandler#minInternalPercent}, it will
+     * be split to the several {@link SmoothHandler#smoothInternalPercent}.
+     *
+     * @param percent        The aim percent.
+     * @param durationMillis Temporary duration for {@code percent}. If lesson than 0, it will be
+     *                       ignored.
+     */
+    void setSmoothPercent(float percent, long durationMillis);
 }

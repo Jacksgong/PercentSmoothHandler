@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 0.1.1
+
+_2016-04-21_
+
+- Enhancement: Support smoothly processing with a definite duration millisecond.
+
 ## Version 0.1.0
 
 _2016-02-05_

@@ -14,7 +14,7 @@ PercentSmoothHandler is installed by adding the following dependency to your `bu
 
 ```
 dependencies {
-    compile 'cn.dreamtobe.percentsmoothhandler:library:0.1.0'
+    compile 'cn.dreamtobe.percentsmoothhandler:library:0.1.1'
 }
 ```
 
@@ -32,6 +32,9 @@ dependencies {
 
 [test: adapter the 'commitPercent' in SmoothProgressBar](https://github.com/Jacksgong/PercentSmoothHandler/commit/7092746888610b819658e27c5c616ee85aebb9f5)
 
+#### Step 3:
+
+[demo(smooth_with_duration): adapt the smoothly processing with a definite duration millisecond](https://github.com/Jacksgong/PercentSmoothHandler/commit/6682a8ee0c1eb1d3a423b6f89dbec8ce0f630b06)
 
 ## LICENSE
 

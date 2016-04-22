@@ -187,8 +187,8 @@ public class SmoothHandler extends Handler {
 
         if (NEED_LOG) {
             Log.d(TAG,
-                    String.format("start loopSmooth aimPercent(%f) durationMillis(%d)",
-                            aimPercent, durationMillis));
+                    String.format("start loopSmooth lastAimPercent(%f), aimPercent(%f)" +
+                            " durationMillis(%d)", aimPercent, percent, durationMillis));
         }
 
         final ISmoothTarget target = targetWeakReference.get();
